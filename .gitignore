@@ -1,0 +1,42 @@
+# Frontend dependencies and builds
+node_modules/
+.next/
+build/
+dist/
+.sites-runtime/
+
+# Local environment files
+.env
+.env.local
+backend/.env
+
+# Python environment and cache
+backend/venv/
+venv/
+**/__pycache__/
+*.pyc
+*.pyo
+
+# Processing inputs and outputs
+backend/jobs/*
+!backend/jobs/.gitkeep
+
+# Hugging Face cache only
+backend/models/.cache/
+
+# Windows FFmpeg files
+backend/bin/*.exe
+
+# Testing and coverage
+coverage/
+.pytest_cache/
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
