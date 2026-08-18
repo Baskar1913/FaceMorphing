@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \
     build-essential \
     cmake \
@@ -18,8 +18,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN python -c "from app.processor import model_files_ready; assert model_files_ready(), 'Required offline models are missing'"
+RUN python -c "from pathlib import Path; files=list(Path('models').rglob('*.onnx')); assert len(files) == 6, f'Expected 6 ONNX models, found {len(files)}'; assert min(f.stat().st_size for f in files) > 1000000, 'Git LFS model files were not downloaded'"
 
 EXPOSE 8000
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
